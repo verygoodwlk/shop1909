@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class GoogsImages extends BaseEntity {
+public class GoodsImages extends BaseEntity {
 
     private Integer gid;
     private String info;

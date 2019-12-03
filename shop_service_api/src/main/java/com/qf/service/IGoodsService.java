@@ -7,4 +7,6 @@ import java.util.List;
 public interface IGoodsService {
 
     List<Goods> list();
+
+    int insert(Goods goods);
 }

@@ -34,6 +34,7 @@
 <body>
 <div id="main-content">
     <div class="content-box">
+
         <!-- End .content-box-header -->
         <div class="content-box-content">
             <div class="tab-content default-tab" id="tab1">
@@ -55,7 +56,7 @@
                         <td><input type="checkbox" /></td>
                         <td th:text="${goods.id}">Lorem ipsum dolor</td>
                         <td th:text="${goods.subject}">Lorem ipsum dolor</td>
-                        <td>图片</td>
+                        <td><img style="width: 120px; height: 90px" th:src="|/goods/showimg?imgPath=${goods.fmurl}|"/></td>
                         <td th:text="${#numbers.formatCurrency(goods.price)}">Lorem ipsum dolor</td>
                         <td th:text="${goods.save}">Consectetur adipiscing</td>
                         <td>
@@ -124,6 +125,41 @@
         });
     });
 
+
+    $(function(){
+        // 初始化Web Uploader
+        var uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: "/resources/widget/webuploader/Uploader.swf",
+            // 文件接收服务端。
+            server: '/goods/uploader',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#other_uploader'
+        });
+
+        //设置上传后的回调方法
+        uploader.on('uploadSuccess', function(file, response){
+            if(response.code == "200"){
+                //设置图片回显
+                /*$("#fm_img").attr("src", "/goods/showimg?imgPath=" + response.data);
+                $("#fmurl").val(response.data);*/
+
+                var html = "<img style='width: 120px; height: 120px; margin: 10px' src='/goods/showimg?imgPath=" + response.data + "'/>";
+                $("#imgdiv").append(html);
+
+
+                //设置图片的路径隐藏域
+                var htmlinput = "<input type='hidden' name='otherurls' value='" + response.data + "'/>";
+                $("#imgurl").append(htmlinput);
+            } else {
+                alert("图片上传失败！");
+            }
+        });
+    });
+
     //弹出框
     function dialog(){
         $("#mydialog").dialog({
@@ -140,7 +176,7 @@
 
     <div class="content-box-content">
         <div class="tab-content default-tab" id="tab2">
-            <form action="#" method="post">
+            <form action="/goods/insert" method="post">
                 <fieldset>
                     <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
                     <!--<p>
@@ -168,9 +204,11 @@
                     </p>
                     <p>
                         <label>上传其他图片</label>
-                        <input
-                                class="text-input medium-input datepicker" type="file"
-                                name="subject" />
+                        <div id="other_uploader">上传其他图片</div>
+                        <div id="imgdiv" style="width: 600px; height: 300px; border: darkgray solid 1px; margin-top: 10px"></div>
+                        <div id="imgurl">
+
+                        </div>
                     </p>
                     <p>
                         <label>商品价格</label>
@@ -196,7 +234,7 @@
                                   name="info" cols="79" rows="15"></textarea>
                     </p>
                     <p>
-                        <input class="mybutton" type="submit" value="Submit" />
+                        <button type="submit">添加商品</button>
                     </p>
                 </fieldset>
                 <div class="clear"></div>

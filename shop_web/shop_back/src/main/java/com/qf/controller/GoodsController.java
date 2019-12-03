@@ -31,7 +31,8 @@ public class GoodsController {
     public String list(Model model){
         //调用商品服务，查询所有商品
         List<Goods> goods = goodsService.list();
-        model.addAttribute("goodsList", goods);
+//        System.out.println("查询所有商品：" + goods);
+        model.addAttribute("goodsList" , goods);
         return "goodslist";
     }
 
@@ -76,13 +77,16 @@ public class GoodsController {
 
     }
 
-//    @RequestMapping("/ajax")
-//    @ResponseBody
-//    public ResultData<String> ajax(){
-//        System.out.println("接收到ajax请求！");
-//        System.out.println(1/0);
-//        return new ResultData<String>()
-//                .setCode(ResultData.ResultCodeList.OK)
-//                .setData("MyData");
-//    }
+    /***
+     * 添加商品
+     * @return
+     */
+    @RequestMapping("/insert")
+    public String insert(Goods goods){
+        //调用商品服务，保存图片
+        goodsService.insert(goods);
+        return "redirect:/goods/list";
+    }
+
+
 }

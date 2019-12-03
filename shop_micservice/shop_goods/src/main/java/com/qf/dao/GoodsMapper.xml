@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.dao.GoodsMapper">
+
+    <resultMap id="MyRsultMap" type="com.qf.entity.Goods">
+        <id column="id" property="id"/>
+        <result column="subject" property="subject"/>
+        <result column="info" property="info"/>
+        <result column="price" property="price"/>
+        <result column="save" property="save"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" property="status"/>
+        <result column="fmurl" property="fmurl"/>
+        <!-- 对多-->
+        <collection property="otherurls" ofType="string">
+            <result column="otherurls"/>
+        </collection>
+
+    </resultMap>
+
+
+    <select id="queryList" resultMap="MyRsultMap">
+        select g.*,
+        (select gis.url from goods_images gis where gid = g.id and gis.isfengmian = 1) as 'fmurl',
+        gi.url as 'otherurls'
+        from goods g join goods_images gi on g.id = gi.gid where gi.isfengmian = 0
+    </select>
+
+    <select id="queryById" resultMap="MyRsultMap">
+        select g.*,
+        (select gis.url from goods_images gis where gid = g.id and gis.isfengmian = 1) as 'fmurl',
+        gi.url as 'otherurls'
+        from goods g join goods_images gi on g.id = gi.gid
+        where gi.isfengmian = 0 and g.id = #{gid}
+    </select>
+</mapper>

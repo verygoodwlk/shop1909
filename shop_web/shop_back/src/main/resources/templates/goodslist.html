@@ -17,10 +17,19 @@
     <!--                       Javascripts                       -->
     <!-- jQuery -->
     <script type="text/javascript"
-            src="resources/scripts/jquery-1.3.2.min.js"></script>
+            src="resources/scripts/jquery-1.9.1.min.js"></script>
     <!-- jQuery Configuration -->
-    <script type="text/javascript"
-            src="resources/scripts/simpla.jquery.configuration.js"></script>
+    <!--<script type="text/javascript"
+            src="resources/scripts/simpla.jquery.configuration.js"></script>-->
+
+    <!-- 添加jquery弹窗的依赖 -->
+    <script src="resources/widget/dialog/jquery-ui-1.9.2.custom.min.js"></script>
+    <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+
+    <!-- 引入webuploader依赖 -->
+    <script src="resources/widget/webuploader/webuploader.min.js"></script>
+    <link rel="stylesheet" href="resources/widget/webuploader/webuploader.css"/>
+
 </head>
 <body>
 <div id="main-content">
@@ -32,22 +41,40 @@
                     <thead>
                     <tr>
                         <th><input class="check-all" type="checkbox" /></th>
-                        <th>Column 1</th>
-                        <th>Column 2</th>
-                        <th>Column 3</th>
-                        <th>Column 4</th>
-                        <th>Column 5</th>
+                        <th>编号</th>
+                        <th>商品标题</th>
+                        <th>商品封面</th>
+                        <th>价格</th>
+                        <th>库存</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
+
+                    <tbody>
+                    <tr th:each="goods : ${goodsList}">
+                        <td><input type="checkbox" /></td>
+                        <td th:text="${goods.id}">Lorem ipsum dolor</td>
+                        <td th:text="${goods.subject}">Lorem ipsum dolor</td>
+                        <td>图片</td>
+                        <td th:text="${#numbers.formatCurrency(goods.price)}">Lorem ipsum dolor</td>
+                        <td th:text="${goods.save}">Consectetur adipiscing</td>
+                        <td>
+                            <!-- Icons --> <a href="#" title="Edit"><img
+                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
+                                href="#" title="Delete"><img
+                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
+                                href="#" title="Edit Meta"><img
+                                src="resources/images/icons/hammer_screwdriver.png"
+                                alt="Edit Meta" /></a>
+                        </td>
+                    </tr>
+                    </tbody>
+
                     <tfoot>
                     <tr>
                         <td colspan="6">
                             <div class="bulk-actions align-left">
-                                <select name="dropdown">
-                                    <option value="option1">Choose an action...</option>
-                                    <option value="option2">Edit</option>
-                                    <option value="option3">Delete</option>
-                                </select> <a class="mybutton" href="#">Apply to selected</a>
+                                <a class="mybutton" onclick="dialog();">添加商品</a>
                             </div>
                             <div class="pagination">
                                 <a href="#" title="First Page">&laquo; First</a><a href="#"
@@ -62,142 +89,125 @@
                         </td>
                     </tr>
                     </tfoot>
-                    <tbody>
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>Lorem ipsum dolor</td>
-                        <td><a href="#" title="title">Sit amet</a></td>
-                        <td>Consectetur adipiscing</td>
-                        <td>Donec tortor diam</td>
-                        <td>
-                            <!-- Icons --> <a href="#" title="Edit"><img
-                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
-                                href="#" title="Delete"><img
-                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
-                                href="#" title="Edit Meta"><img
-                                src="resources/images/icons/hammer_screwdriver.png"
-                                alt="Edit Meta" /></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>Lorem ipsum dolor</td>
-                        <td><a href="#" title="title">Sit amet</a></td>
-                        <td>Consectetur adipiscing</td>
-                        <td>Donec tortor diam</td>
-                        <td>
-                            <!-- Icons --> <a href="#" title="Edit"><img
-                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
-                                href="#" title="Delete"><img
-                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
-                                href="#" title="Edit Meta"><img
-                                src="resources/images/icons/hammer_screwdriver.png"
-                                alt="Edit Meta" /></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>Lorem ipsum dolor</td>
-                        <td><a href="#" title="title">Sit amet</a></td>
-                        <td>Consectetur adipiscing</td>
-                        <td>Donec tortor diam</td>
-                        <td>
-                            <!-- Icons --> <a href="#" title="Edit"><img
-                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
-                                href="#" title="Delete"><img
-                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
-                                href="#" title="Edit Meta"><img
-                                src="resources/images/icons/hammer_screwdriver.png"
-                                alt="Edit Meta" /></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>Lorem ipsum dolor</td>
-                        <td><a href="#" title="title">Sit amet</a></td>
-                        <td>Consectetur adipiscing</td>
-                        <td>Donec tortor diam</td>
-                        <td>
-                            <!-- Icons --> <a href="#" title="Edit"><img
-                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
-                                href="#" title="Delete"><img
-                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
-                                href="#" title="Edit Meta"><img
-                                src="resources/images/icons/hammer_screwdriver.png"
-                                alt="Edit Meta" /></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>Lorem ipsum dolor</td>
-                        <td><a href="#" title="title">Sit amet</a></td>
-                        <td>Consectetur adipiscing</td>
-                        <td>Donec tortor diam</td>
-                        <td>
-                            <!-- Icons --> <a href="#" title="Edit"><img
-                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
-                                href="#" title="Delete"><img
-                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
-                                href="#" title="Edit Meta"><img
-                                src="resources/images/icons/hammer_screwdriver.png"
-                                alt="Edit Meta" /></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>Lorem ipsum dolor</td>
-                        <td><a href="#" title="title">Sit amet</a></td>
-                        <td>Consectetur adipiscing</td>
-                        <td>Donec tortor diam</td>
-                        <td>
-                            <!-- Icons --> <a href="#" title="Edit"><img
-                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
-                                href="#" title="Delete"><img
-                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
-                                href="#" title="Edit Meta"><img
-                                src="resources/images/icons/hammer_screwdriver.png"
-                                alt="Edit Meta" /></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>Lorem ipsum dolor</td>
-                        <td><a href="#" title="title">Sit amet</a></td>
-                        <td>Consectetur adipiscing</td>
-                        <td>Donec tortor diam</td>
-                        <td>
-                            <!-- Icons --> <a href="#" title="Edit"><img
-                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
-                                href="#" title="Delete"><img
-                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
-                                href="#" title="Edit Meta"><img
-                                src="resources/images/icons/hammer_screwdriver.png"
-                                alt="Edit Meta" /></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>Lorem ipsum dolor</td>
-                        <td><a href="#" title="title">Sit amet</a></td>
-                        <td>Consectetur adipiscing</td>
-                        <td>Donec tortor diam</td>
-                        <td>
-                            <!-- Icons --> <a href="#" title="Edit"><img
-                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
-                                href="#" title="Delete"><img
-                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
-                                href="#" title="Edit Meta"><img
-                                src="resources/images/icons/hammer_screwdriver.png"
-                                alt="Edit Meta" /></a>
-                        </td>
-                    </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
         <!-- End .content-box-content -->
     </div>
 </div>
+
+<script>
+    //页面加载后初始化
+    $(function(){
+        // 初始化Web Uploader
+        var uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: "/resources/widget/webuploader/Uploader.swf",
+            // 文件接收服务端。
+            server: '/goods/uploader',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#fm_uploader'
+        });
+
+        //设置上传后的回调方法
+        uploader.on('uploadSuccess', function(file, response){
+            if(response.code == "200"){
+                //设置图片回显
+                $("#fm_img").attr("src", "/goods/showimg?imgPath=" + response.data);
+                $("#fmurl").val(response.data);
+            } else {
+                alert("图片上传失败！");
+            }
+        });
+    });
+
+    //弹出框
+    function dialog(){
+        $("#mydialog").dialog({
+            width: 800,
+            height: 600,
+            title: "添加商品",
+            modal: true
+        });
+    }
+</script>
+
+<!-- 添加商品的弹出框 -->
+<div id="mydialog" style="display: none;">
+
+    <div class="content-box-content">
+        <div class="tab-content default-tab" id="tab2">
+            <form action="#" method="post">
+                <fieldset>
+                    <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+                    <!--<p>
+                        <label>Small form input</label> <input
+                            class="text-input small-input" type="text" id="small-input"
+                            name="small-input" /> <span
+                            class="input-notification success png_bg">Successful
+									message</span>
+                        &lt;!&ndash; Classes for input-notification: success, error, information, attention &ndash;&gt;
+                        <br /> <small>A small description of the field</small>
+                    </p>-->
+                    <p>
+                        <label>商品标题</label>
+                            <input
+                                class="text-input medium-input datepicker" type="text"
+                                name="subject" />
+                    </p>
+                    <p>
+                        <label>上传封面</label>
+                        <img
+                               id="fm_img" style="width: 120px; height: 120px"/>
+                        <input type="hidden" id="fmurl" name="fmurl"/>
+
+                        <div id="fm_uploader">上传封面</div>
+                    </p>
+                    <p>
+                        <label>上传其他图片</label>
+                        <input
+                                class="text-input medium-input datepicker" type="file"
+                                name="subject" />
+                    </p>
+                    <p>
+                        <label>商品价格</label>
+                        <input
+                                class="text-input medium-input datepicker" type="text"
+                                name="price" />
+                    </p>
+                    <p>
+                        <label>商品库存</label>
+                        <input
+                                class="text-input medium-input datepicker" type="text"
+                                name="save" />
+                    </p>
+                   <!-- <p>
+                        <label>Large form input</label> <input
+                            class="text-input large-input" type="text" id="large-input"
+                            name="large-input" />
+                    </p>-->
+
+                    <p>
+                        <label>商品描述</label>
+                        <textarea class="text-input textarea wysiwyg" id="textarea"
+                                  name="info" cols="79" rows="15"></textarea>
+                    </p>
+                    <p>
+                        <input class="mybutton" type="submit" value="Submit" />
+                    </p>
+                </fieldset>
+                <div class="clear"></div>
+                <!-- End .clear -->
+            </form>
+        </div>
+        <!-- End #tab2 -->
+    </div>
+
+</div>
+
 <!-- End #main-content -->
 </body>
 </html>

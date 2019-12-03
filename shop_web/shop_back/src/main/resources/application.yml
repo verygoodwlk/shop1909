@@ -3,3 +3,11 @@ server:
 spring:
   thymeleaf:
     cache: false
+dubbo:
+  registry:
+    address: zookeeper://192.168.195.188:2181
+  consumer:
+    check: false
+  application:
+    name: web-goods
+

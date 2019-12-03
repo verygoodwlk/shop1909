@@ -1,0 +1,15 @@
+dubbo:
+  application:
+    name: service-goods
+  registry:
+    address: zookeeper://192.168.195.188:2181
+  protocol:
+    port: -1
+  consumer:
+    check: false
+spring:
+  datasource:
+    url: jdbc:mysql:///shop1909?serverTimezone=GMT%2B8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver

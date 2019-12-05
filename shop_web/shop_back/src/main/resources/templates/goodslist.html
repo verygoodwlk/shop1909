@@ -56,7 +56,7 @@
                         <td><input type="checkbox" /></td>
                         <td th:text="${goods.id}">Lorem ipsum dolor</td>
                         <td th:text="${goods.subject}">Lorem ipsum dolor</td>
-                        <td><img style="width: 120px; height: 90px" th:src="|/goods/showimg?imgPath=${goods.fmurl}|"/></td>
+                        <td><img style="width: 120px; height: 90px" th:src="|http://192.168.195.188:8080/${goods.fmurl}|"/></td>
                         <td th:text="${#numbers.formatCurrency(goods.price)}">Lorem ipsum dolor</td>
                         <td th:text="${goods.save}">Consectetur adipiscing</td>
                         <td>
@@ -117,7 +117,7 @@
         uploader.on('uploadSuccess', function(file, response){
             if(response.code == "200"){
                 //设置图片回显
-                $("#fm_img").attr("src", "/goods/showimg?imgPath=" + response.data);
+                $("#fm_img").attr("src", "http://192.168.195.188:8080/" + response.data);
                 $("#fmurl").val(response.data);
             } else {
                 alert("图片上传失败！");
@@ -147,7 +147,7 @@
                 /*$("#fm_img").attr("src", "/goods/showimg?imgPath=" + response.data);
                 $("#fmurl").val(response.data);*/
 
-                var html = "<img style='width: 120px; height: 120px; margin: 10px' src='/goods/showimg?imgPath=" + response.data + "'/>";
+                var html = "<img style='width: 120px; height: 120px; margin: 10px' src='http://192.168.195.188:8080/" + response.data + "'/>";
                 $("#imgdiv").append(html);
 
 

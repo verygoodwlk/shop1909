@@ -1,21 +1,20 @@
 package com.qf.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.github.tobato.fastdfs.domain.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.qf.entity.Goods;
 import com.qf.entity.ResultData;
 import com.qf.service.IGoodsService;
-import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/goods")
@@ -23,6 +22,9 @@ public class GoodsController {
 
     //图片上传路径
     private String uploadPath = "C:/worker/imgs";
+
+    @Autowired
+    private FastFileStorageClient fastFileStorageClient;
 
     @Reference
     private IGoodsService goodsService;
@@ -40,19 +42,17 @@ public class GoodsController {
     @ResponseBody
     public ResultData<String> uploader(MultipartFile file){
 
-        System.out.println("触发了文件上传：" + file.getOriginalFilename());
+        //上传到fastdfs
+        String path = null;
+        try {
+            StorePath resultPath = fastFileStorageClient.uploadImageAndCrtThumbImage(
+                    file.getInputStream(),
+                    file.getSize(),
+                    "JPG",
+                    null
+            );
 
-        //准备文件名称
-        String filename = UUID.randomUUID().toString();
-
-        String path = uploadPath + "/" + filename;
-
-
-        try(
-                InputStream in = file.getInputStream();
-                OutputStream out = new FileOutputStream(path);
-        ) {
-            IOUtils.copy(in, out);
+            path = resultPath.getFullPath();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class GoodsController {
 
     /**
      * 图片回显
-     */
+
     @RequestMapping("/showimg")
     public void showImage(String imgPath, HttpServletResponse response){
 
@@ -75,7 +75,7 @@ public class GoodsController {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     /***
      * 添加商品

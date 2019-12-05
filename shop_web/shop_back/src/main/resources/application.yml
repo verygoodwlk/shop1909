@@ -11,3 +11,11 @@ dubbo:
   application:
     name: web-goods
 
+fdfs:
+  pool:
+    jmx-enabled: false
+  thumb-image:
+    width: 100
+    height: 100
+  tracker-list:
+    - 192.168.195.188:22122

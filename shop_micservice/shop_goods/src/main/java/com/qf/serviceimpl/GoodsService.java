@@ -1,6 +1,8 @@
 package com.qf.serviceimpl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qf.dao.GoodsImagesMapper;
 import com.qf.dao.GoodsMapper;
 import com.qf.entity.Goods;
@@ -24,6 +26,11 @@ public class GoodsService implements IGoodsService {
     @Transactional(readOnly = true)
     public List<Goods> list() {
         return goodsMapper.queryList();
+    }
+
+    @Override
+    public IPage<Goods> listPage(Page<Goods> page) {
+        return goodsMapper.queryListPage(page);
     }
 
     @Override

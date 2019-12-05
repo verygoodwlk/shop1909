@@ -33,4 +33,11 @@
         from goods g join goods_images gi on g.id = gi.gid
         where gi.isfengmian = 0 and g.id = #{gid}
     </select>
+
+    <select id="queryListPage" resultMap="MyRsultMap">
+        select g.*,
+        (select gis.url from goods_images gis where gid = g.id and gis.isfengmian = 1) as 'fmurl',
+        gi.url as 'otherurls'
+        from goods g join goods_images gi on g.id = gi.gid where gi.isfengmian = 0
+    </select>
 </mapper>

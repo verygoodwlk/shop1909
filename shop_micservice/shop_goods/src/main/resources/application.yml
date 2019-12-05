@@ -15,3 +15,6 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis-plus:
   mapper-locations: classpath:com/qf/dao/*.xml
+  configuration:
+    #Mybatis会在控制台打印执行的sql语句 - 可以配合mybatis log插件使用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

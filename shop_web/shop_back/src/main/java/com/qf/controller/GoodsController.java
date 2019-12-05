@@ -33,8 +33,19 @@ public class GoodsController {
     public String list(Model model){
         //调用商品服务，查询所有商品
         List<Goods> goods = goodsService.list();
-//        System.out.println("查询所有商品：" + goods);
+
+        //分页查询
+//        Page<Goods> page = new Page<>(1, 2);
+//        IPage<Goods> ipage = goodsService.listPage(page);
+//
+//        System.out.println("当前页：" + ipage.getCurrent());
+//        System.out.println("当前页：" + ipage.getPages());
+//        System.out.println("当前页：" + ipage.getSize());
+//        System.out.println("当前页：" + ipage.getTotal());
+//        System.out.println("-->" + ipage.getRecords());
+
         model.addAttribute("goodsList" , goods);
+//        model.addAttribute("page" , ipage);
         return "goodslist";
     }
 

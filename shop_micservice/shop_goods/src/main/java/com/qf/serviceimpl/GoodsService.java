@@ -1,5 +1,6 @@
 package com.qf.serviceimpl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -8,6 +9,7 @@ import com.qf.dao.GoodsMapper;
 import com.qf.entity.Goods;
 import com.qf.entity.GoodsImages;
 import com.qf.service.IGoodsService;
+import com.qf.service.ISearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,9 @@ public class GoodsService implements IGoodsService {
 
     @Autowired
     private GoodsMapper goodsMapper;
+
+    @Reference
+    private ISearchService searchService;
 
     @Autowired
     private GoodsImagesMapper goodsImagesMapper;
@@ -58,6 +63,14 @@ public class GoodsService implements IGoodsService {
             goodsImagesMapper.insert(gi);
         }
 
+        //同步索引库
+        searchService.insertSolr(goods);
+
         return 1;
+    }
+
+    @Override
+    public Goods queryById(Integer id) {
+        return goodsMapper.queryById(id);
     }
 }

@@ -68,7 +68,7 @@ public class GoodsController {
             e.printStackTrace();
         }
 
-        return new ResultData<String>().setCode(ResultData.ResultCodeList.OK).setData(path);
+        return new ResultData<String>().setCode(ResultData.ResultCodeList.OK).setData("http://www.img.com:8080/" + path);
     }
 
     /**

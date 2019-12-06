@@ -13,4 +13,6 @@ public interface IGoodsService {
     IPage<Goods> listPage(Page<Goods> page);
 
     int insert(Goods goods);
+
+    Goods queryById(Integer id);
 }

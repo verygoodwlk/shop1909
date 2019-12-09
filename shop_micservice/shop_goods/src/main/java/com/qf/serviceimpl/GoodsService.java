@@ -10,6 +10,7 @@ import com.qf.entity.Goods;
 import com.qf.entity.GoodsImages;
 import com.qf.service.IGoodsService;
 import com.qf.service.ISearchService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,9 @@ public class GoodsService implements IGoodsService {
 
     @Autowired
     private GoodsImagesMapper goodsImagesMapper;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     @Transactional(readOnly = true)
@@ -64,7 +68,10 @@ public class GoodsService implements IGoodsService {
         }
 
         //同步索引库
-        searchService.insertSolr(goods);
+//        searchService.insertSolr(goods);
+
+        //将添加索引库的消息发送到MQ中
+        rabbitTemplate.convertAndSend("goods_exchange", "", goods);
 
         return 1;
     }

@@ -13,6 +13,12 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  rabbitmq:
+    host: 192.168.195.188
+    username: admin
+    password: admin
+    virtual-host: /admin
+    port: 5672
 mybatis-plus:
   mapper-locations: classpath:com/qf/dao/*.xml
   configuration:

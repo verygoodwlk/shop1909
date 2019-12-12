@@ -15,7 +15,7 @@ public class CartController {
      * 添加购物车
      * @return
      */
-    @IsLogin(mustLogin = true)
+    @IsLogin
     @RequestMapping("/insert")
     public String insert(Integer gid, Integer gnumber){
         System.out.println("加入购物车：" + gid + "---" + gnumber);

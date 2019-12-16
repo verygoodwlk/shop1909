@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -92,8 +94,14 @@ public class SsoController {
                 returnUrl = "http://localhost";
             }
 
+            try {
+                returnUrl = URLEncoder.encode(returnUrl, "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
             //跳转到首页
-            return "redirect:" + returnUrl;
+            return "redirect:http://localhost:8083/cart/merge?returnUrl=" + returnUrl;
         }
 
         model.addAttribute("error", "账号或者密码错误！");

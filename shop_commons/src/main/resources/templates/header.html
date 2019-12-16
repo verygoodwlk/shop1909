@@ -29,6 +29,35 @@
                 });
             });
 
+            //发送ajax获得购物车的信息
+            $(function(){
+                $.ajax({
+                    url: "http://localhost:8083/cart/list",
+                    success: function(data){
+                        //展示购物车列表
+                        if(data != null && data.length > 0){
+
+                            //显示购物车的数量
+                            $("#cartnumber").html(data.length);
+
+                            //循环列出购物车的商品列表
+                            var html = "<ul>";
+                            for(var i = 0; i < data.length; i++){
+                                html += "<li style='width: 400px; height: auto;'>";
+                                html += "<img style='width: 60px; height: 50px' src='" + data[i].goods.fmurl + "'/>";
+                                html += "<b style='margin-left: 10px'>" + data[i].goods.subject + "</b>";
+                                html += "<span style='margin-left: 10px'>" + data[i].goods.price + "x" + data[i].number + "</span>";
+                                html += "<span style='margin-left: 10px'>小计：" + data[i].cartPrice + "</span>";
+                                html += "</li>";
+                            }
+                            html += "</ul>";
+                            $("#cartList").html(html);
+                        }
+                    },
+                    dataType: "jsonp"
+                });
+            })
+
 
             function mylogin(){
                 //获得当前页面url
@@ -84,15 +113,10 @@
                             </li>
 
                             <li>
+                                <!-- TODO 购物车 -->
                                 <div class="topNav_menu">
-                                    <a href="#" class="topNavHover">购物车<b>0</b>种商品<i></i></a>
-                                    <div class="topNav_menu_bd" style="display:none;">
-                                        <!--
-                                        <ul>
-                                          <li><a title="已售出的商品" target="_top" href="#">已售出的商品</a></li>
-                                          <li><a title="销售中的商品" target="_top" href="#">销售中的商品</a></li>
-                                        </ul>
-                                        -->
+                                    <a href="#" class="topNavHover">购物车<b id="cartnumber">0</b>种商品<i></i></a>
+                                    <div id="cartList" class="topNav_menu_bd" style="display:none; width: 400px; height: 400px">
                                         <p>还没有商品，赶快去挑选！</p>
                                     </div>
                                 </div>

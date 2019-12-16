@@ -5,3 +5,12 @@ spring:
     cache: false
   redis:
     host: 192.168.195.188
+dubbo:
+  application:
+    name: web-cart
+  registry:
+    address: zookeeper://192.168.195.188:2181
+  consumer:
+    check: false
+    timeout: 10000
+    retries: 0

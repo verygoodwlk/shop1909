@@ -52,6 +52,7 @@ public class CartServiceImpl implements ICartService {
             cartToken = cartToken != null ? cartToken : UUID.randomUUID().toString();
             redisTemplate.opsForList().leftPush(cartToken, cart);
 
+
             //全部取出list
             //遍历list
             //修改某个购物车的数量，将这个购物车商品提到最上面
@@ -95,5 +96,23 @@ public class CartServiceImpl implements ICartService {
         }
 
         return shopCarts;
+    }
+
+    @Override
+    public List<ShopCart> queryCartsByGid(Integer[] gid, User user) {
+
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("uid", user.getId());
+        queryWrapper.in("gid", gid);
+        List<ShopCart> carts = cartMapper.selectList(queryWrapper);
+
+        //关联查询所有购物车的商品信息，方便页面展示
+        for (ShopCart shopCart : carts) {
+            Integer id = shopCart.getGid();
+            Goods goods = goodsService.queryById(id);
+            shopCart.setGoods(goods);
+        }
+
+        return carts;
     }
 }

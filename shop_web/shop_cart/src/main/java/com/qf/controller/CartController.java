@@ -10,6 +10,7 @@ import com.qf.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -104,5 +105,20 @@ public class CartController {
 
         //合并完成最终跳转到登录时的页面
         return "redirect:" + returnUrl;
+    }
+
+    /**
+     * 跳转到购物车列表页面
+     * @return
+     */
+    @RequestMapping("/showlist")
+    @IsLogin
+    public String showList(@CookieValue(name = "cartToken", required = false) String cartToken, Model model){
+
+        User user = UserHolder.getUser();
+        List<ShopCart> shopCarts = cartService.listCarts(cartToken, user);
+        model.addAttribute("carts", shopCarts);
+
+        return "cartlist";
     }
 }

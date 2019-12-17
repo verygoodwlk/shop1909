@@ -25,7 +25,7 @@ public class AddressServiceImpl implements IAddressService {
 
     @Override
     public Address queryById(Integer id) {
-        return null;
+        return addressMapper.selectById(id);
     }
 
     /**

@@ -73,6 +73,13 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.61</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.8.73.ALL</version>
+        </dependency>
     </dependencies>
 
     <build>

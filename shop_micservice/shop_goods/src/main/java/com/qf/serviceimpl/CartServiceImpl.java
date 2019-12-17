@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -114,5 +115,27 @@ public class CartServiceImpl implements ICartService {
         }
 
         return carts;
+    }
+
+    @Override
+    public List<ShopCart> queryCartsByCid(Integer[] cids) {
+
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.in("id", cids);
+        List<ShopCart> carts = cartMapper.selectList(queryWrapper);
+
+        //关联查询所有购物车的商品信息，方便页面展示
+        for (ShopCart shopCart : carts) {
+            Integer id = shopCart.getGid();
+            Goods goods = goodsService.queryById(id);
+            shopCart.setGoods(goods);
+        }
+
+        return carts;
+    }
+
+    @Override
+    public int deleteByCids(Integer[] cids) {
+        return cartMapper.deleteBatchIds(Arrays.asList(cids));
     }
 }

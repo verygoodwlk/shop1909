@@ -7,6 +7,8 @@ public class AlipayUtil {
 
     private static AlipayClient alipayClient;
 
+    public static final String ALIPAY_PUBLICK_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIgHnOn7LLILlKETd6BFRJ0GqgS2Y3mn1wMQmyh9zEyWlz5p1zrahRahbXAfCfSqshSNfqOmAQzSHRVjCqjsAw1jyqrXaPdKBmr90DIpIxmIyKXv4GGAkPyJ/6FTFY99uhpiq0qadD/uSzQsefWo0aTvP/65zi3eof7TcZ32oWpwIDAQAB";
+
     static{
         alipayClient = new DefaultAlipayClient(
                 "https://openapi.alipaydev.com/gateway.do",

@@ -3,6 +3,7 @@ package com.qf.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.qf.entity.Orders;
 import com.qf.service.IOrderService;
@@ -11,8 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/pay")
@@ -71,13 +75,34 @@ public class PayController {
      */
     @RequestMapping("/payCallBack")
     @ResponseBody
-    public String payCallBack(String out_trade_no, String trade_status){
+    public String payCallBack(HttpServletRequest request, String out_trade_no, String trade_status) throws AlipayApiException {
 
-        if(trade_status.equals("TRADE_SUCCESS")){
-            //支付成功，修改订单状态
-            orderService.updateOrderStatus(out_trade_no, 1);
+        Map<String, String> signParams = new HashMap<>();
+
+        Map<String, String[]> params = request.getParameterMap();
+        for (Map.Entry<String, String[]> entry : params.entrySet()) {
+            signParams.put(entry.getKey(), entry.getValue()[0]);
         }
 
-        return null;
+        //验签的过程
+        boolean signVerified = AlipaySignature.rsaCheckV1(signParams, AlipayUtil.ALIPAY_PUBLICK_KEY, signParams.get("charset"), signParams.get("sign_type")); //调用SDK验证签名
+        if(signVerified){
+            // TODO 验签成功后，按照支付结果异步通知中的描述，对支付结果中的业务内容进行二次校验，校验成功后在response中返回success并继续商户自身业务处理，校验失败返回failure
+
+            //验证out_trade_no是否存在
+            //判断total_amount和对应的订单总金额是否一致
+            //验证seller_id是否匹配
+            //验证app_id是否为当前商户的appid
+
+            if(trade_status.equals("TRADE_SUCCESS") || trade_status.equals("TRADE_FINISHED")){
+                //支付成功，修改订单状态
+                orderService.updateOrderStatus(out_trade_no, 1);
+                return "success";
+            }
+        }else{
+            // TODO 验签失败则记录异常日志，并在response中返回failure.
+            System.out.println("支付验证失败！");
+        }
+        return "failure";
     }
 }
